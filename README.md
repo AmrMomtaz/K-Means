@@ -29,3 +29,23 @@ underlying system will automatically parallelize the computations across large-s
 handling machine failures, inter-machine communications, etc.
 In this assignment you are asked to make a parallel version of the well-known and commonly 
 used K-Means clustering algorithm using the map-reduce framework.
+
+## MapReduce
+
+In this section, I’m going to explain how the MapReduce code works:
+
+1. First, we start execution in the main function. The code reads the initial centroids
+(initially entered by the user). And it parses it to a list and it sends them in the configurations to be accessed by all mappers and
+reducers.
+2. Then comes the mapper job. It reads the input file and It finds
+the closest centroid to each sample of the data and it emits this sample
+with the index of the nearest centroid.
+3. Then the each reducer gets all the data samples which are the closest to a
+certain centroid so it averages all of them and updates the centroid values.
+4. Finally, we get back to the main function where it writes the new
+centroids in the same file it has already read from it and it deletes the
+output directory created by the mapreduce (to be able to run again). And it
+checks whether the centroids values are changed or not. If not it breaks the
+execution.
+
+The code is well documented where you will find each step as discussed above.
