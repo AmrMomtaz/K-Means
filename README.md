@@ -35,10 +35,10 @@ used K-Means clustering algorithm using the map-reduce framework.
 In this section, I’m going to explain how the MapReduce code works:
 
 1. First, we start execution in the main function. The code reads the initial centroids
-(initially entered by the user). And it serializes it using gson library it sends them in the configurations to be accessed by all mappers and
+(initially entered by the user). And it serializes it using gson library and sends them in the configurations to be accessed by all mappers and
 reducers.
-2. Then comes the mapper job. It reads the input file and deserializes the centroids and it finds
-the closest centroid to each sample of the data and it emits this sample
+2. Then comes the mapper job. It reads the input file and deserializes the centroids and finds
+the closest centroid to each sample of the data and emits this sample
 with the index of the nearest centroid.
 3. Then the each reducer gets all the data samples which are the closest to a
 certain centroid so it averages all of them and updates the centroid values.
@@ -53,7 +53,7 @@ The code is well documented where you will find each step as discussed above.
 
 ## How to run:
 
-In this section, I'll show how to run the code and produce the jar file to run on hadoop.
+In this section, I'll show how to run the code on hadoop.
 
 1. First, define the list of initial centroids in a file with this format:
 ```
@@ -68,11 +68,10 @@ a1 a2 a3 ... an -> centroid_3
 ```
 where **n** is the number of features and **m** is the number of clusters (k parameter).
 
-2. Second, preprocess the data he wants to cluster by removing all
-unnecessary columns and leaving only numeric columns and he defines
-the separator in code (the separator is “,” in case of csv files).
+2. Second, preprocess the data to be clustered by removing all unnecessary columns 
+leaving only numeric columns and define the separator in code (the separator is “,” in case of csv files).
 
-3. Then, compile the java class and produces the output jar using the
+3. Then, compile the java class and produce the output jar using the
 following commands:
 ```
 $HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main KMeans.java
