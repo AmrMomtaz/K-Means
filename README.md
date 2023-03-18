@@ -1,12 +1,12 @@
-# K-Means
+# Parallel K-Means
 
 This assignment was part of **CS432: Distributed Systems** and it aims to enhance your understanding of Apache Hadoop, also gaining 
 experience with the MapReduce programming framework for large-scale data processing.
 
 In this repository you will find implementation of the K-Means algorithm for clustering using MapReduce and the unparalleled verison
-of it. In the MapReduce code you can run it on IDE by creating a maven project with the corresponding dependencies as mentioned in the
-pom.xml file. Also you can run it on hadoop (HDFS) but you will need to uncomment some lines mentioned in the source code to handle
-hdfs file system.
+of it. You can configure it with any number of features or clusters. In the MapReduce code you can run it on IDE by creating a maven 
+project with the corresponding dependencies as mentioned in the pom.xml file. Also you can run it on hadoop (HDFS) but you will need 
+to uncomment some lines mentioned in the source code to handle hdfs file system.
 
 ## Description
 
@@ -42,10 +42,53 @@ the closest centroid to each sample of the data and it emits this sample
 with the index of the nearest centroid.
 3. Then the each reducer gets all the data samples which are the closest to a
 certain centroid so it averages all of them and updates the centroid values.
-4. Finally, we get back to the main function where it writes the new
+4. Then, we get back to the main function where it writes the new
 centroids in the same file it has already read from it and it deletes the
 output directory created by the mapreduce (to be able to run again). And it
 checks whether the centroids values are changed or not. If not it breaks the
-execution.
+execution. And if they are changed it will create new map-reduce job and so on.
+5. Finally, The code outputs the final centroids after convergence.
 
 The code is well documented where you will find each step as discussed above.
+
+## How to run:
+
+In this section, I'll show how to run the code and produce the jar file to run on hadoop.
+
+1. First, define the list of initial centroids in a file with this format:
+```
+a1 a2 a3 ... an -> centroid_1
+a1 a2 a3 ... an -> centroid_2
+a1 a2 a3 ... an -> centroid_3
+          .
+          .
+          .
+          v
+      centroid_m
+```
+where **n** is the number of features and **m** is the number of clusters (k parameter).
+
+2. Second, preprocess the data he wants to cluster by removing all
+unnecessary columns and leaving only numeric columns and he defines
+the separator in code (the separator is “,” in case of csv files).
+
+3. Then, compile the java class and produces the output jar using the
+following commands:
+```
+$HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main KMeans.java
+jar cf kmeans.jar KMeans*.class
+```
+
+4. Run the jar on hadoop using the following command:
+```
+$HADOOP_HOME/bin/hadoop jar kmeans.jar KMeans <centroids_file_path> <input_directory_path> <output_directory_path>
+```
+Please note that the centroids and inputs must be uploaded to the hdfs first. The output directory be must new and doesn't exist already.
+
+## Conclusion
+
+The final centroids of the unparalleled, map-reduce (IDE/Hadoop) and scikit-learn outputs the same centroids after finishing execution.
+
+The map reduce parallel version would work efficiently on a large
+dataset. But if the data is small, the overhead of creating jobs and doing the map, shuffle
+and reduce jobs overcomes the time of processing the algorithm sequentially.
