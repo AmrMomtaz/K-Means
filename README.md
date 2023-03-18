@@ -35,9 +35,9 @@ used K-Means clustering algorithm using the map-reduce framework.
 In this section, I’m going to explain how the MapReduce code works:
 
 1. First, we start execution in the main function. The code reads the initial centroids
-(initially entered by the user). And it parses it to a list and it sends them in the configurations to be accessed by all mappers and
+(initially entered by the user). And it serializes it using gson library it sends them in the configurations to be accessed by all mappers and
 reducers.
-2. Then comes the mapper job. It reads the input file and It finds
+2. Then comes the mapper job. It reads the input file and deserializes the centroids and it finds
 the closest centroid to each sample of the data and it emits this sample
 with the index of the nearest centroid.
 3. Then the each reducer gets all the data samples which are the closest to a
