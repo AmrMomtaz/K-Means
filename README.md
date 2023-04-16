@@ -81,18 +81,31 @@ where **n** is the number of features and **m** is the number of clusters (k par
 2. Second, preprocess the data to be clustered by removing all unnecessary columns 
 leaving only numeric columns and define the separator in code (the separator is “,” in case of csv files).
 
-3. Then, compile the java class and produce the output jar using the
-following commands:
-```
-$HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main KMeans.java
-jar cf kmeans.jar KMeans*.class
-```
+3. Modify the source code either for Spark or MapReduce by uncommenting the lines indicated in the code and
+use the fileSystem instance (replace the nulls with the fileSystem instance).
 
-4. Run the jar on hadoop using the following command:
-```
-$HADOOP_HOME/bin/hadoop jar kmeans.jar KMeans <centroids_file_path> <input_directory_path>
-```
-Please note that the centroids and the input data must be uploaded to the hdfs first.<br>
+4. Compile the code to generate the jars as following:
+    * For ***MapReduce*** use the following commands:<br>
+    ```
+    $HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main MapReduceKMeans.java
+    jar cf kmeans.jar MapReduceKMeans*.class
+    ```
+    * For ***Spark*** use the following commands:<br>
+    ```
+    $HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main MapReduceKMeans.java
+    jar cf MapReduceKMeans.jar MapReduceKMeans*.class
+    ```
+
+5. Run the jar on hadoop using the following command:
+    * For ***MapReduce*** use the following commands:<br>
+    ```
+    $HADOOP_HOME/bin/hadoop jar MapReduceKMeans.jar MapReduceKMeans <centroids_file_path> <input_directory_path>
+    ```
+    * For ***Spark*** use the following commands:<br>
+    ```
+    $HADOOP_HOME/bin/hadoop jar MapReduceKMeans.jar MapReduceKMeans <centroids_file_path> <input_directory_path>
+    ```
+Please note that the centroids text file and the input data must be uploaded to the hdfs first.<br>
 <centroids_file_path> is the path of the initial centroids file.<br>
 <input_directory_path> is the path of the input data to be clustered (can be a directory).
 
