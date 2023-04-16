@@ -103,4 +103,4 @@ The final centroids of the unparalleled, map-reduce (IDE/Hadoop), Spark and scik
 The map-reduce & Spark parallel version would work efficiently on a large
 dataset. But if the data is small, the overhead of creating jobs and doing the map, shuffle
 and reduce jobs or spark jobs would overcome the time of processing the data sequentially (the unparallel version).<br>
-The execution of Spark is much faster than the map-reduce
+The execution of Spark is much faster than the map-reduce.
