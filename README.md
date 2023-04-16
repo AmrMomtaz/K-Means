@@ -1,12 +1,12 @@
 # Parallel K-Means
 
 This assignment was part of **CS432: Distributed Systems** and it aims to enhance your understanding of Apache Hadoop, also gaining 
-experience with the MapReduce programming framework for large-scale data processing.
+experience with Spark and MapReduce programming framework for large-scale data processing.
 
-In this repository you will find implementation of the K-Means algorithm for clustering using MapReduce and the unparalleled verison
-of it. You can configure it with any number of features or clusters. In the MapReduce code you can run it on IDE by creating a maven 
+In this repository you will find implementation of the K-Means algorithm for clustering using MapReduce, Spark and the unparalleled verison
+of it. You can configure it with any number of features or clusters. In the MapReduce or Spark code you can run it on IDE by creating a maven 
 project with the corresponding dependencies as mentioned in the pom.xml file. Also you can run it on hadoop (HDFS) but you will need 
-to uncomment some lines mentioned in the source code to handle hdfs file system.
+to uncomment some lines mentioned in the source code to handle HDFS file system.
 
 ## Description
 
@@ -47,9 +47,19 @@ centroids in the same file it has already read from it and it deletes the
 output directory created by the mapreduce (to be able to run again). And it
 checks whether the centroids values are changed or not. If not it breaks the
 execution. And if they are changed it will create new map-reduce job and so on.
-5. Finally, The code outputs the final centroids after convergence.
+5. Finally, The code outputs the final centroids after convergence in the same file it reads from.
 
 The code is well documented where you will find each step as discussed above.
+
+## Spark
+
+The code is very similar to the mapreduce part except that all the data
+are stored and processed as JavaPairRDD. However, here are the steps:
+
+1) Map all the points which are close to a certain centroid together.
+2) Reduce all the mapped data samples together by summing up all their values.
+3) Divide each entry by the count of this group to get the new centroids.
+4) Collect the new centroids and check if they have changed. If not write them in the centroids file.
 
 ## How to run:
 
@@ -80,14 +90,17 @@ jar cf kmeans.jar KMeans*.class
 
 4. Run the jar on hadoop using the following command:
 ```
-$HADOOP_HOME/bin/hadoop jar kmeans.jar KMeans <centroids_file_path> <input_directory_path> <output_directory_path>
+$HADOOP_HOME/bin/hadoop jar kmeans.jar KMeans <centroids_file_path> <input_directory_path>
 ```
-Please note that the centroids and inputs must be uploaded to the hdfs first. The output directory be must new and doesn't exist already.
+Please note that the centroids and the input data must be uploaded to the hdfs first.<br>
+<centroids_file_path> is the path of the initial centroids file.<br>
+<input_directory_path> is the path of the input data to be clustered (can be a directory).
 
 ## Conclusion
 
-The final centroids of the unparalleled, map-reduce (IDE/Hadoop) and scikit-learn outputs the same centroids after finishing execution.
+The final centroids of the unparalleled, map-reduce (IDE/Hadoop), Spark and scikit-learn outputs the same centroids after finishing execution.
 
-The map reduce parallel version would work efficiently on a large
+The map-reduce & Spark parallel version would work efficiently on a large
 dataset. But if the data is small, the overhead of creating jobs and doing the map, shuffle
-and reduce jobs overcomes the time of processing the algorithm sequentially.
+and reduce jobs or spark jobs would overcome the time of processing the data sequentially (the unparallel version).<br>
+The execution of Spark is much faster than the map-reduce
