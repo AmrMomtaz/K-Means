@@ -6,7 +6,8 @@ experience with Spark and MapReduce programming framework for large-scale data p
 In this repository you will find implementation of the K-Means algorithm for clustering using MapReduce, Spark and the unparalleled verison
 of it. You can configure it with any number of features or clusters. In the MapReduce or Spark code you can run it on IDE by creating a maven 
 project with the corresponding dependencies as mentioned in the pom.xml file. Also you can run it on hadoop (HDFS) but you will need 
-to uncomment some lines mentioned in the source code to handle HDFS file system.
+to uncomment some lines mentioned in the source code to handle HDFS file system. After the execution, the final centroids for clustering are 
+overwrtitten in the same initial centroids text file.
 
 ## Description
 
@@ -84,16 +85,16 @@ leaving only numeric columns and define the separator in code (the separator is 
 3. Modify the source code either for Spark or MapReduce by uncommenting the lines indicated in the code and
 use the fileSystem instance (replace the nulls with the fileSystem instance).
 
-4. Compile the code to generate the jars as following:
+4. Compile the code to generate the jars as following (jars are available in the repository):
     * For ***MapReduce*** use the following commands:<br>
     ```
     $HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main MapReduceKMeans.java
     jar cf kmeans.jar MapReduceKMeans*.class
     ```
-    * For ***Spark*** use the following commands:<br>
+    * For ***Spark*** go to the maven project directory and build the project using the following command and the jar will be generated in the target 
+    directory:<br>
     ```
-    $HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main MapReduceKMeans.java
-    jar cf MapReduceKMeans.jar MapReduceKMeans*.class
+    mvn clean install
     ```
 
 5. Run the jar on hadoop using the following command:
@@ -103,7 +104,7 @@ use the fileSystem instance (replace the nulls with the fileSystem instance).
     ```
     * For ***Spark*** use the following commands:<br>
     ```
-    $HADOOP_HOME/bin/hadoop jar MapReduceKMeans.jar MapReduceKMeans <centroids_file_path> <input_directory_path>
+    java -jar wordcount-1.0.jar hdfs://localhost:9000/<centroids_file_path> hdfs://localhost:9000/<input_directory_path>
     ```
 Please note that the centroids text file and the input data must be uploaded to the hdfs first.<br>
 <centroids_file_path> is the path of the initial centroids file.<br>
