@@ -82,10 +82,12 @@ where **n** is the number of features and **m** is the number of clusters (k par
 2. Second, preprocess the data to be clustered by removing all unnecessary columns 
 leaving only numeric columns and define the separator in code (the separator is “,” in case of csv files).
 
-3. Modify the source code either for Spark or MapReduce by uncommenting the lines indicated in the code and
+3. Upload the centroids file along with the data (to be clustered) on HDFS.
+
+4. Modify the source code either for Spark or MapReduce by uncommenting the lines indicated in the code and
 use the fileSystem instance (replace the nulls with the fileSystem instance).
 
-4. Compile the code to generate the jars as following (jars are available in the repository):
+5. Compile the code to generate the jars as following (jars are available in the repository):
     * For ***MapReduce*** use the following commands:<br>
     ```
     $HADOOP_HOME/bin/hadoop com.sun.tools.javac.Main MapReduceKMeans.java
@@ -97,7 +99,7 @@ use the fileSystem instance (replace the nulls with the fileSystem instance).
     mvn clean install
     ```
 
-5. Run the jar on hadoop using the following command:
+6. Run the jar on hadoop using the following command:
     * For ***MapReduce*** use the following commands:<br>
     ```
     $HADOOP_HOME/bin/hadoop jar MapReduceKMeans.jar MapReduceKMeans <centroids_file_path> <input_directory_path>
@@ -111,15 +113,10 @@ use the fileSystem instance (replace the nulls with the fileSystem instance).
     hdfs://localhost:9000/<centroids_file_path> \
     hdfs://localhost:9000/<input_directory_path>
     ```
-Please note that the centroids text file and the input data must be uploaded to the hdfs first.<br>
-<centroids_file_path> is the path of the initial centroids file.<br>
-<input_directory_path> is the path of the input data to be clustered (can be a directory).
 
 ## Conclusion
 
-The final centroids of the unparalleled, map-reduce (IDE/Hadoop), Spark and scikit-learn outputs the same centroids after finishing execution.
-
+The final centroids of the unparalleled, map-reduce (IDE/Hadoop), Spark and scikit-learn outputs the same centroids after finishing execution.<br>
 The map-reduce & Spark parallel version would work efficiently on a large
 dataset. But if the data is small, the overhead of creating jobs and doing the map, shuffle
-and reduce jobs or spark jobs would overcome the time of processing the data sequentially (the unparallel version).<br>
-The execution of Spark is much faster than the map-reduce.
+and reduce jobs or spark jobs would overcome the time of processing the data sequentially (the unparallel version). The execution of Spark is much faster than the map-reduce.
