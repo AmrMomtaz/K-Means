@@ -102,9 +102,14 @@ use the fileSystem instance (replace the nulls with the fileSystem instance).
     ```
     $HADOOP_HOME/bin/hadoop jar MapReduceKMeans.jar MapReduceKMeans <centroids_file_path> <input_directory_path>
     ```
-    * For ***Spark*** use the following commands:<br>
+    * For ***Spark*** use the following commands: (you should have [Apache Spark](https://spark.apache.org/downloads.html) installed and exists in your PATH)<br>
     ```
-    java -jar SparkKMeans-1.0.jar hdfs://localhost:9000/<centroids_file_path> hdfs://localhost:9000/<input_directory_path>
+    spark-submit \
+    --class SparkKMeans \
+    --master local \
+    SparkKMeans-1.0.jar \
+    hdfs://localhost:9000/<centroids_file_path> \
+    hdfs://localhost:9000/<input_directory_path>
     ```
 Please note that the centroids text file and the input data must be uploaded to the hdfs first.<br>
 <centroids_file_path> is the path of the initial centroids file.<br>
