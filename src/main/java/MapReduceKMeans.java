@@ -105,9 +105,8 @@ public class MapReduceKMeans {
 
     /**
      * Driver code.
-     * arg1-> Path of the centroids file.
-     * arg2-> Path of input directory.
-     * arg3-> Path of output directory.
+     * arg1-> Path of the initial centroids file.
+     * arg2-> Path of input data directory (or file).
      */
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         // Validating and parsing arguments
