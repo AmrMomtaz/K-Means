@@ -60,7 +60,7 @@ are stored and processed as JavaPairRDD. However, here are the steps:
 1) Map all the points which are close to a certain centroid together.
 2) Reduce all the mapped data samples together by summing up all their values.
 3) Divide each entry by the count of this group to get the new centroids.
-4) Collect the new centroids and check if they have changed. If not write them in the centroids file.
+4) Collect the new centroids and check if they have changed. If changed write them in the same centroids file. Otherwise, break the execution.
 
 ## How to run:
 
