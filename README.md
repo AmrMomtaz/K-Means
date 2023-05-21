@@ -1,6 +1,6 @@
 # Parallel K-Means
 
-This assignment was part of **CS432: Distributed Systems** and it aims to enhance your understanding of Apache Hadoop, also gaining 
+This assignment was part of **CS432: Distributed Systems** which aims to enhance understanding of Apache Hadoop, also gaining 
 experience with Spark and MapReduce programming framework for large-scale data processing.
 
 In this repository you will find implementation of the K-Means algorithm for clustering using MapReduce, Spark and the unparalleled verison
